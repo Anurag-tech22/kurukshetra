@@ -1,35 +1,36 @@
 # Kurukshetra
 
-Kurukshetra is a Smart Study Planner focused on helping students manage focus sessions, track progress, and get AI-powered study insights.
+Kurukshetra is a premium study planner designed to help students and professionals manage their focus time, track study sessions, and generate AI-powered summaries from lecture notes.
 
-This repo contains a high-quality starter scaffold using React + Vite + TypeScript + Tailwind. It includes a serverless API template for AI features (OpenAI) that can be deployed on Vercel.
+## Features
+- Pomodoro timer with preset focus lengths
+- Study session planner with local persistence
+- Progress dashboard with weekly focus overview
+- AI notes summarizer using a secure serverless API route
+- Clean, responsive UI with a premium dark theme
 
-Features (MVP):
-- Pomodoro timer with presets
-- Session list UI (placeholder)
-- AI Insights: paste notes and get summaries (calls /api/summarize or falls back to a local summarizer)
-- Tailwind styling and responsive layout
-- Public repo — ready for Vercel
+## Tech stack
+- React + Vite + TypeScript
+- Tailwind CSS
+- Serverless AI route for OpenAI (optional)
 
-Quick start:
+## Quick start
 
-1) Install
-
+```bash
 npm install
-
-2) Local dev
-
 npm run dev
+```
 
-3) AI (optional)
-- To enable AI summarization, deploy to Vercel and set environment variable OPENAI_API_KEY in your project settings.
-- A serverless function is provided at /api/summarize for Vercel (see api/summarize.js).
+## AI setup
+The app tries to call `/api/summarize` on the server. In production, deploy on Vercel and add:
 
-4) Deploy
-- Recommended: connect this GitHub repo to Vercel and deploy. Vercel will automatically detect the project and provide the serverless endpoint.
+```bash
+OPENAI_API_KEY=your_key_here
+```
 
-Security:
-- Do NOT commit API keys. Use Vercel / Netlify env vars.
+If no API key is present, the app falls back to a local summary generator.
 
-Contributing:
-- If you want, I can continue by adding features: persistent storage (Firestore), analytics, PWA manifest, or a React-native companion.
+## Deploy
+- Recommended: Vercel
+- Connect this repository
+- Set `OPENAI_API_KEY` in project environment variables

@@ -2,20 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+:root {
+  --bg: #070b16;
+  --panel: rgba(15, 23, 42, 0.85);
+  --card: rgba(15, 23, 42, 0.92);
+  --line: rgba(148, 163, 184, 0.2);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --brand: #6366f1;
+  --brand-2: #22d3ee;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
   height: 100%;
 }
 
 body {
-  @apply bg-neutral-900 text-slate-100 antialiased;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(99, 102, 241, 0.22), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.18), transparent 32%),
+    #070b16;
+  color: var(--text);
 }
 
-/* small design tokens */
-:root {
-  --brand-1: #6366f1; /* indigo */
-  --brand-2: #06b6d4; /* teal */
+* {
+  box-sizing: border-box;
 }
 
-.btn-brand {
-  background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.45);
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-slate-700/80 bg-slate-900/80 shadow-glow backdrop-blur-xl;
+  }
+
+  .primary-btn {
+    @apply rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-2.5 font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:translate-y-[-1px];
+  }
+
+  .secondary-btn {
+    @apply rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-2.5 font-medium text-slate-100 transition hover:border-slate-500;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-200;
+  }
 }

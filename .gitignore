@@ -1,7 +1,7 @@
 # dependencies
 node_modules
-.vscode
-.DS_Store
-dist
+.vite
+.dist
 .env
 .env.local
+.DS_Store

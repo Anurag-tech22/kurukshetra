@@ -1,52 +1,70 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-async function callSummarizeAPI(text: string){
-  try{
-    const res = await fetch('/api/summarize', {
+function localSummarize(text: string) {
+  const sentences = text.split(/(?<=[.!?])\s+/).slice(0, 3)
+  return sentences.join(' ') || 'Your notes are ready for review.'
+}
+
+async function summarizeNotes(text: string) {
+  try {
+    const response = await fetch('/api/summarize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ text }),
     })
-    if(!res.ok) throw new Error('API Error')
-    const data = await res.json()
-    return data
-  }catch(err){
-    return { error: 'No AI available. Falling back to local summarizer.', summary: localSummarize(text) }
+
+    if (!response.ok) {
+      throw new Error('fetch failed')
+    }
+
+    const data = await response.json()
+    return data.summary || localSummarize(text)
+  } catch {
+    return localSummarize(text)
   }
 }
 
-function localSummarize(text: string){
-  // super simple local summarizer: return first 3 sentences
-  const parts = text.split(/(?<=[.!?])\s+/).slice(0,3)
-  return parts.join(' ')
-}
-
-export default function AIInsights(){
-  const [input, setInput] = useState('')
+export default function AIInsights() {
+  const [note, setNote] = useState('')
+  const [summary, setSummary] = useState('')
   const [loading, setLoading] = useState(false)
-  const [summary, setSummary] = useState<string | null>(null)
 
-  async function handleSummarize(){
-    if(!input.trim()) return
+  const handleSummarize = async () => {
+    if (!note.trim()) return
     setLoading(true)
-    const res = await callSummarizeAPI(input)
-    if(res?.summary) setSummary(res.summary)
-    else if(res?.error) setSummary(res.error)
+    const result = await summarizeNotes(note)
+    setSummary(result)
     setLoading(false)
   }
 
   return (
-    <div className="space-y-3">
-      <textarea value={input} onChange={e=>setInput(e.target.value)} rows={6} className="w-full bg-slate-900 p-3 rounded-md text-sm" placeholder="Paste lecture notes or ideas to get a concise summary and action items"></textarea>
-      <div className="flex gap-2">
-        <button onClick={handleSummarize} disabled={loading} className="px-4 py-2 rounded-md bg-indigo-600 text-white">{loading? 'Working...':'Summarize'}</button>
-        <button onClick={()=>{ setInput(''); setSummary(null) }} className="px-4 py-2 rounded-md bg-slate-700 text-white">Clear</button>
+    <div className="space-y-4">
+      <div>
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">AI Assistant</p>
+        <h3 className="mt-2 text-xl font-semibold">Study notes summarizer</h3>
+      </div>
+
+      <textarea
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        rows={7}
+        placeholder="Paste lecture notes, a chapter summary, or your ideas here..."
+        className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 p-3 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-cyan-400"
+      />
+
+      <div className="flex flex-wrap gap-3">
+        <button onClick={handleSummarize} disabled={loading} className="primary-btn disabled:opacity-60">
+          {loading ? 'Thinking...' : 'Summarize'}
+        </button>
+        <button onClick={() => { setNote(''); setSummary('') }} className="secondary-btn">
+          Clear
+        </button>
       </div>
 
       {summary && (
-        <div className="mt-2 bg-slate-900 p-3 rounded-md">
-          <h4 className="font-semibold">AI Summary</h4>
-          <p className="text-sm text-slate-300 mt-2">{summary}</p>
+        <div className="rounded-2xl border border-cyan-500/30 bg-cyan-500/10 p-4">
+          <div className="text-xs uppercase tracking-[0.2em] text-cyan-300">Summary</div>
+          <p className="mt-3 text-sm leading-7 text-slate-200">{summary}</p>
         </div>
       )}
     </div>
