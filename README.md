@@ -1,36 +1,24 @@
-# Kurukshetra
+Kurukshetra — Smart Study Planner
 
-Kurukshetra is a premium study planner designed to help students and professionals manage their focus time, track study sessions, and generate AI-powered summaries from lecture notes.
+This repository now contains a full client-only implementation of the study planner with a local "AI" summarizer.
 
-## Features
-- Pomodoro timer with preset focus lengths
-- Study session planner with local persistence
-- Progress dashboard with weekly focus overview
-- AI notes summarizer using a secure serverless API route
-- Clean, responsive UI with a premium dark theme
+Changes made for GitHub Pages deployment and API removal:
+- The OpenAI/serverless API dependency was removed from the active UI flow.
+- The AI summarizer now runs fully client-side with a local summarizer and action-item generator (no API key required).
+- Vite base was set to "/kurukshetra/" so the app can be deployed to GitHub Pages.
+- package.json includes a deploy script using gh-pages: `npm run deploy` builds and publishes the `dist` to the gh-pages branch.
 
-## Tech stack
-- React + Vite + TypeScript
-- Tailwind CSS
-- Serverless AI route for OpenAI (optional)
+How to run locally:
+1. npm install
+2. npm run dev
 
-## Quick start
+How to deploy to GitHub Pages (automatic method using gh-pages):
+1. npm install --save-dev gh-pages
+2. npm run build
+3. npm run deploy
 
-```bash
-npm install
-npm run dev
-```
+Alternatively, connect this repo to GitHub Pages from Settings > Pages and set the source to the `gh-pages` branch after running the deploy script once.
 
-## AI setup
-The app tries to call `/api/summarize` on the server. In production, deploy on Vercel and add:
-
-```bash
-OPENAI_API_KEY=your_key_here
-```
-
-If no API key is present, the app falls back to a local summary generator.
-
-## Deploy
-- Recommended: Vercel
-- Connect this repository
-- Set `OPENAI_API_KEY` in project environment variables
+Notes:
+- Because the summarization and "AI" features are local now, they do not require any API keys and are fully offline-capable.
+- If you later want to re-enable remote AI features (OpenAI), we can re-introduce a secure serverless function and environment variable guidance.
