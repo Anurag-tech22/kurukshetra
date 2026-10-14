@@ -1,24 +1,31 @@
-Kurukshetra — Smart Study Planner
+# Kurukshetra
 
-This repository now contains a full client-only implementation of the study planner with a local "AI" summarizer.
+Kurukshetra is a premium study planner designed to help students manage focus time, track study sessions, and generate local summaries from notes.
 
-Changes made for GitHub Pages deployment and API removal:
-- The OpenAI/serverless API dependency was removed from the active UI flow.
-- The AI summarizer now runs fully client-side with a local summarizer and action-item generator (no API key required).
-- Vite base was set to "/kurukshetra/" so the app can be deployed to GitHub Pages.
-- package.json includes a deploy script using gh-pages: `npm run deploy` builds and publishes the `dist` to the gh-pages branch.
+Important deployment note
+- You asked not to deploy to GitHub Pages, so this repo is not configured for GitHub Pages deployment.
+- The project is ready for other hosting options like Vercel, Netlify, or a static host.
 
-How to run locally:
-1. npm install
-2. npm run dev
+How to run locally
 
-How to deploy to GitHub Pages (automatic method using gh-pages):
-1. npm install --save-dev gh-pages
-2. npm run build
-3. npm run deploy
+1. Install dependencies
 
-Alternatively, connect this repo to GitHub Pages from Settings > Pages and set the source to the `gh-pages` branch after running the deploy script once.
+   npm install
 
-Notes:
-- Because the summarization and "AI" features are local now, they do not require any API keys and are fully offline-capable.
-- If you later want to re-enable remote AI features (OpenAI), we can re-introduce a secure serverless function and environment variable guidance.
+2. Start local dev server
+
+   npm run dev
+
+3. Build for production
+
+   npm run build
+
+Recommended deployment
+
+- Vercel (recommended): Connect the repo and Vercel will detect the Vite app and deploy automatically. No further changes are required.
+- Netlify: Use the build command `npm run build` and publish the `dist/` folder.
+
+Notes
+
+- The AI summarizer is client-side only and does not require any API key.
+- If you'd like automated deployment (CI) to Vercel or Netlify, I can add GitHub Actions or deployment instructions.
